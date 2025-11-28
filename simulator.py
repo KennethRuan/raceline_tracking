@@ -7,17 +7,16 @@ from time import time
 
 from racetrack import RaceTrack
 from racecar import RaceCar
-from controller import lower_controller, controller
+from controller import controller, lower_controller
 
 class Simulator:
 
     def __init__(self, rt : RaceTrack):
-        matplotlib.rcParams["figure.dpi"] = 300
+        matplotlib.rcParams["figure.dpi"] = 180
         matplotlib.rcParams["font.size"] = 8
 
         self.rt = rt
         self.figure, self.axis = plt.subplots(1, 1)
-
         self.axis.set_xlabel("X"); self.axis.set_ylabel("Y")
 
         self.car = RaceCar(self.rt.initial_state.T)
@@ -115,12 +114,12 @@ class Simulator:
             exit()
 
     def update_status(self):
-        progress = np.linalg.norm(self.car.state[0:2] - self.rt.centerline[0, 0:2], 2)
+        progress = np.linalg.norm(self.car.state[0:2] - self.rt.centerline[0, :2], 2)
 
         if progress > 10.0 and not self.lap_started:
             self.lap_started = True
     
-        if progress <= 1.0 and self.lap_started and not self.lap_finished:
+        if progress <= 5.0 and self.lap_started and not self.lap_finished:
             self.lap_finished = True
             self.lap_time_elapsed = time() - self.lap_start_time
 

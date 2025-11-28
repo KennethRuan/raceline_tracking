@@ -82,4 +82,3 @@ class RaceCar:
         self.state = self.state + self.time_step*0.1666*(s1 + 2*s2 + 2*s3 + s4)
 
         self.state, _ = RaceCar.normalize_system(self.state, u, self.parameters)
-
